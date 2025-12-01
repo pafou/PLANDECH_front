@@ -1,47 +1,124 @@
-# Getting Started with Create React App
+# Plan de Charge Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This is the frontend application for the Plan de Charge system, built with React. The application provides a user interface for managing work plans, teams, subjects, and administrative tasks.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- User authentication and authorization
+- Admin dashboard for managing:
+  - Admins
+  - Teams and team members
+  - Subjects and subject types
+  - Color coding for subject types
+- User selection interface
+- Modification interface for work plans
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Structure
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+front/
+├── public/                # Static files
+├── src/                   # Source code
+│   ├── apiConfig.ts       # API configuration
+│   ├── App.tsx            # Main application component
+│   ├── components/        # React components
+│   │   ├── Admin.tsx      # Admin dashboard
+│   │   ├── Modif.tsx      # Modification interface
+│   │   ├── UserSelect.tsx # User selection component
+│   │   └── ...            # Other components
+│   ├── utils/             # Utility functions
+│   └── ...                # Other files
+├── package.json           # Project dependencies and scripts
+├── tsconfig.json          # TypeScript configuration
+└── README.md              # Project documentation
+```
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v16 or later)
+- npm (v6 or later)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd front
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm run eject`
+### Running the Application
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Start the development server:
+   ```bash
+   npm start
+   ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Available Scripts
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `npm start`: Runs the app in development mode
+- `npm build`: Builds the app for production
+- `npm test`: Launches the test runner
+- `npm eject`: Ejects the Create React App configuration (use with caution)
 
-## Learn More
+## API Configuration
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The frontend communicates with a backend API. The API base URL is configured in `src/apiConfig.ts`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# PLANDECH_front
+```typescript
+export const API_BASE_URL = 'http://localhost:5001';
+```
+
+You may need to update this URL to match your backend server.
+
+## Environment Variables
+
+The application uses the following environment variables:
+
+- `REACT_APP_API_URL`: The base URL for the API (default: `http://localhost:5001`)
+
+## Components
+
+### Admin Dashboard
+
+The admin dashboard provides interfaces for managing various aspects of the system:
+
+- **Manage Admins**: Add/remove admin users
+- **Manage Teams**: Create and manage teams
+- **Manage Team Members**: Assign team members to teams
+- **Manage Subjects**: Create and manage work subjects
+- **Manage Subject Types**: Define different types of work subjects
+- **Manage Colors**: Assign colors to subject types for visualization
+
+### User Interface
+
+- **UserSelect**: Component for selecting users
+- **Modif**: Interface for modifying work plans
+
+## Contributing
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -am 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Acknowledgments
+
+- Built with [Create React App](https://github.com/facebook/create-react-app)
+- Uses [React Router](https://reactrouter.com/) for navigation
+- TypeScript for static type checking
