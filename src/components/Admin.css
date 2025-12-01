@@ -1,0 +1,134 @@
+/* ===========================
+   Containers
+   =========================== */
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;   /* contenu en haut */
+  align-items: center;           /* centre horizontalement */
+  gap: 20px;
+  min-height: 100vh;             /* pleine hauteur */
+  margin: 0;
+  padding-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.manager-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* enfants aux extrémités */
+  width: auto;
+  margin-top: 5px;
+}
+
+/* ===========================
+   Sections
+   =========================== */
+.admin-section {
+  display: inline-flex;          /* largeur selon contenu */
+  flex-direction: column;
+  gap: 20px;
+  max-width: fit-content;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.admin-section h2 {
+  margin-top: 0;
+}
+
+/* ===========================
+   Content area
+   =========================== */
+.admin-content {
+  display: flex;
+  justify-content: flex-start;   /* aligné à gauche */
+  align-items: flex-start;
+  gap: 20px;                     /* espace entre blocs */
+  width: auto;
+
+  /* style de bloc */
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+/* ===========================
+   Tables
+   =========================== */
+.admin-list table {
+  width: auto;
+  margin: 0;
+  table-layout: auto;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.admin-list th,
+.admin-list td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+/* ===========================
+   Add form / buttons
+   =========================== */
+.admin-add {
+  display: flex;
+  flex-direction: row;           /* champs + boutons côte à côte */
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-add select,
+.admin-add input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.admin-add button {
+  background-color: #78dfa5;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-add button:hover {
+  background-color: #008c56;
+}
+
+/* ===========================
+   Tabs
+   =========================== */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.admin-tabs button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  background-color: #f1f1f1;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-tabs button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-tabs button:hover:not(.active) {
+  background-color: #ddd;
+}
