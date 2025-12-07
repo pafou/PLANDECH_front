@@ -45,71 +45,7 @@ const AdminManageTeamMembers: React.FC<AdminManageTeamMembersProps> = ({
     <div className="admin-section">
       <h2>Team Members</h2>
       <div className="admin-content">
-        <div className="admin-list">
-{teams.map(team => {
-  const teamMembersList = teamMembers
-    .filter(member => member.id_team === team.id_team)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  return (
-    <div key={team.id_team} className="team-table">
-      <h3>{team.team}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Firstname</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teamMembersList.map(member => (
-            <tr key={member.id_pers}>
-              <td>{member.id_pers}</td>
-              <td>{member.name}</td>
-              <td>{member.firstname}</td>
-              <td>
-                <button
-                  className="admin-add-button"
-                  onClick={() => {
-                    const isConfirmed = window.confirm(`Are you sure you want to remove ${member.firstname} ${member.name} from the team?`);
-                    if (isConfirmed) {
-                      const token = localStorage.getItem('jwtToken');
-                      if (token) {
-                        fetch(`${API_BASE_URL}/api/team-members/${member.id_pers}`, {
-                          method: 'DELETE',
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                          },
-                        })
-                          .then(response => {
-                            if (response.ok) {
-                              setTeamMembers(teamMembers.filter(m => m.id_pers !== member.id_pers));
-                            } else {
-                              alert('Error removing member');
-                            }
-                          })
-                          .catch(error => {
-                            console.error('Error removing member:', error);
-                            alert('Error removing member');
-                          });
-                      }
-                    }
-                  }}
-                >
-                  Remove
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-})}
-        </div>
-<h3>Add a new member</h3>
+        <h3>Add a new member</h3>
 <div className="admin-add">
 <input
   type="text"
@@ -202,6 +138,70 @@ const AdminManageTeamMembers: React.FC<AdminManageTeamMembersProps> = ({
   Add Member
 </button>
 </div>
+        <div className="admin-list">
+{teams.map(team => {
+  const teamMembersList = teamMembers
+    .filter(member => member.id_team === team.id_team)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return (
+    <div key={team.id_team} className="team-table">
+      <h3>{team.team}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Firstname</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamMembersList.map(member => (
+            <tr key={member.id_pers}>
+              <td>{member.id_pers}</td>
+              <td>{member.name}</td>
+              <td>{member.firstname}</td>
+              <td>
+                <button
+                  className="admin-add-button"
+                  onClick={() => {
+                    const isConfirmed = window.confirm(`Are you sure you want to remove ${member.firstname} ${member.name} from the team?`);
+                    if (isConfirmed) {
+                      const token = localStorage.getItem('jwtToken');
+                      if (token) {
+                        fetch(`${API_BASE_URL}/api/team-members/${member.id_pers}`, {
+                          method: 'DELETE',
+                          headers: {
+                            Authorization: `Bearer ${token}`,
+                          },
+                        })
+                          .then(response => {
+                            if (response.ok) {
+                              setTeamMembers(teamMembers.filter(m => m.id_pers !== member.id_pers));
+                            } else {
+                              alert('Error removing member');
+                            }
+                          })
+                          .catch(error => {
+                            console.error('Error removing member:', error);
+                            alert('Error removing member');
+                          });
+                      }
+                    }
+                  }}
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+})}
+        </div>
       </div>
     </div>
   );

@@ -44,8 +44,7 @@
    =========================== */
 .admin-content {
   display: flex;
-  justify-content: flex-start;   /* aligné à gauche */
-  align-items: flex-start;
+  flex-direction: column;
   gap: 20px;                     /* espace entre blocs */
   width: auto;
 
@@ -55,6 +54,10 @@
   border-radius: 0 0 5px 5px;
   padding: 20px;
   background-color: #fff;
+}
+
+.admin-section-content {
+  width: 100%;
 }
 
 /* ===========================
@@ -80,9 +83,10 @@
    =========================== */
 .admin-add {
   display: flex;
-  flex-direction: row;           /* champs + boutons côte à côte */
-  align-items: center;
+  flex-direction: column;           /* champs + boutons côte à côte */
+  align-items: flex-start;
   gap: 10px;
+  width: 100%;
 }
 
 .admin-add select,
@@ -90,6 +94,7 @@
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  width: 100%;
 }
 
 .admin-add button {
@@ -99,6 +104,7 @@
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  width: auto;
 }
 
 .admin-add button:hover {
@@ -131,4 +137,42 @@
 
 .admin-tabs button:hover:not(.active) {
   background-color: #ddd;
+}
+
+/* ===========================
+   CSV Import
+   =========================== */
+.csv-import {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.csv-import input[type="file"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.csv-import button {
+  background-color: #2196f3;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  width: auto;
+}
+
+.csv-import button:hover {
+  background-color: #0b7dda;
+}
+
+.csv-import button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

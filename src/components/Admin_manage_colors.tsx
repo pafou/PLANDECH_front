@@ -114,88 +114,88 @@ const AdminManageColors: React.FC<AdminManageColorsProps> = ({
   return (
     <div className="color-mapping-section">
       <h2>Color Mapping</h2>
-      <div className="color-mapping-content">
-        <div className="color-mapping-list">
-          <table>
-            <thead>
-              <tr>
-                <th>Load</th>
-                <th>Color</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {colorMapping.map(mapping => (
-                <tr key={mapping.id_map}>
-                  <td>{mapping.id_map}</td>
-                  <td style={{ backgroundColor: mapping.color_hex }}>
-                    <input
-                      type="color"
-                      value={mapping.color_hex}
-                      onChange={(e) => handleColorChange(mapping.id_map, e.target.value)}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="admin-add-button"
-                      onClick={() => {
-                        const isConfirmed = window.confirm(`Are you sure you want to delete the color mapping for load ${mapping.id_map}?`);
-                        if (isConfirmed) {
-                          const token = localStorage.getItem('jwtToken');
-                          if (token) {
-                            fetch(`${API_BASE_URL}/api/color-mapping/${mapping.id_map}`, {
-                              method: 'DELETE',
-                              headers: {
-                                Authorization: `Bearer ${token}`,
-                              },
-                            })
-                              .then(response => {
-                                if (response.ok) {
-                                  setColorMapping(prevMapping => {
-                                    return prevMapping.filter(m => m.id_map !== mapping.id_map);
-                                  });
-                                } else {
-                                  // No alert for error
-                                }
-                              })
-                              .catch(error => {
-                                console.error('Error deleting color mapping:', error);
-                                // No alert for error
-                              });
-                          }
-                        }
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </td>
+        <div className="color-mapping-content">
+          <div className="color-mapping-add">
+            <h3>Add a new color mapping</h3>
+            <input
+              type="number"
+              placeholder="Load"
+              value={newLoad !== null ? newLoad : ''}
+              onChange={(e) => setNewLoad(e.target.value ? parseInt(e.target.value, 10) : null)}
+              min="0"
+            />
+            <input
+              type="color"
+              value={newColor}
+              onChange={(e) => setNewColor(e.target.value)}
+            />
+            <button
+              onClick={handleAddColor}
+              disabled={newLoad === null || newLoad < 0}
+            >
+              Add Color
+            </button>
+          </div>
+          <div className="color-mapping-list">
+            <table>
+              <thead>
+                <tr>
+                  <th>Load</th>
+                  <th>Color</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {colorMapping.map(mapping => (
+                  <tr key={mapping.id_map}>
+                    <td>{mapping.id_map}</td>
+                    <td style={{ backgroundColor: mapping.color_hex }}>
+                      <input
+                        type="color"
+                        value={mapping.color_hex}
+                        onChange={(e) => handleColorChange(mapping.id_map, e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        className="admin-add-button"
+                        onClick={() => {
+                          const isConfirmed = window.confirm(`Are you sure you want to delete the color mapping for load ${mapping.id_map}?`);
+                          if (isConfirmed) {
+                            const token = localStorage.getItem('jwtToken');
+                            if (token) {
+                              fetch(`${API_BASE_URL}/api/color-mapping/${mapping.id_map}`, {
+                                method: 'DELETE',
+                                headers: {
+                                  Authorization: `Bearer ${token}`,
+                                },
+                              })
+                                .then(response => {
+                                  if (response.ok) {
+                                    setColorMapping(prevMapping => {
+                                      return prevMapping.filter(m => m.id_map !== mapping.id_map);
+                                    });
+                                  } else {
+                                    // No alert for error
+                                  }
+                                })
+                                .catch(error => {
+                                  console.error('Error deleting color mapping:', error);
+                                  // No alert for error
+                                });
+                            }
+                          }
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="color-mapping-add">
-          <h3>Add a new color mapping</h3>
-          <input
-            type="number"
-            placeholder="Load"
-            value={newLoad !== null ? newLoad : ''}
-            onChange={(e) => setNewLoad(e.target.value ? parseInt(e.target.value, 10) : null)}
-            min="0"
-          />
-          <input
-            type="color"
-            value={newColor}
-            onChange={(e) => setNewColor(e.target.value)}
-          />
-          <button
-            onClick={handleAddColor}
-            disabled={newLoad === null || newLoad < 0}
-          >
-            Add Color
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

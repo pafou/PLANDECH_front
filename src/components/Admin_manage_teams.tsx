@@ -193,6 +193,50 @@ console.log("debug:: Liste des teams (teams) :", teams);
     <div className="admin-section">
       <h2>Teams</h2>
       <div className="admin-content">
+        <div className="admin-add">
+          <input
+            type="text"
+            placeholder="Team Name"
+            value={newTeamName}
+            onChange={(e) => setNewTeamName(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Team ID"
+            value={newTeamId ?? ''}
+            onChange={(e) => setNewTeamId(e.target.value ? Number(e.target.value) : null)}
+          />
+          <button
+            onClick={() => {
+              const token = localStorage.getItem('jwtToken');
+              if (token && newTeamName) {
+                fetch(`${API_BASE_URL}/api/teams`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({ team: newTeamName, id_team: newTeamId }),
+                })
+              .then(response => {
+                if (response.ok) {
+                  // Refresh the page after adding a new team
+                  window.location.reload();
+                } else {
+                  alert('Error adding team');
+                }
+              })
+              .catch(error => {
+                console.error('Error adding team:', error);
+                alert('Error adding team');
+              });
+            }
+          }}
+          disabled={!newTeamName}
+        >
+          Add Team
+        </button>
+        </div>
         <div className="admin-list">
           <table>
             <thead>
@@ -266,50 +310,6 @@ console.log("debug:: Liste des teams (teams) :", teams);
                 ))}
             </tbody>
           </table>
-        </div>
-        <div className="admin-add">
-          <input
-            type="text"
-            placeholder="Team Name"
-            value={newTeamName}
-            onChange={(e) => setNewTeamName(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Team ID"
-            value={newTeamId ?? ''}
-            onChange={(e) => setNewTeamId(e.target.value ? Number(e.target.value) : null)}
-          />
-          <button
-            onClick={() => {
-              const token = localStorage.getItem('jwtToken');
-              if (token && newTeamName) {
-                fetch(`${API_BASE_URL}/api/teams`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify({ team: newTeamName, id_team: newTeamId }),
-                })
-              .then(response => {
-                if (response.ok) {
-                  // Refresh the page after adding a new team
-                  window.location.reload();
-                } else {
-                  alert('Error adding team');
-                }
-              })
-              .catch(error => {
-                console.error('Error adding team:', error);
-                alert('Error adding team');
-              });
-            }
-          }}
-          disabled={!newTeamName}
-        >
-          Add Team
-        </button>
         </div>
       </div>
     </div>

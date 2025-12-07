@@ -129,6 +129,26 @@ const AdminManageAdmin: React.FC<AdminManageAdminProps> = ({
     <div className="admin-section">
       <h2>Admin</h2>
       <div className="admin-content">
+        <div className="admin-add">
+          {/* Select pour choisir un utilisateur */}
+          <select
+            value={selectedUserId !== null ? selectedUserId : ''}
+            onChange={(e) => setSelectedUserId(Number(e.target.value))}
+          >
+            <option value="">Select a user</option>
+            {[...users]
+              .filter(user => !admins.some(admin => admin.id_pers === user.id_pers))
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map(user => (
+                <option key={user.id_pers} value={user.id_pers}>
+                  {user.name} {user.firstname} (ID: {user.id_pers})
+                </option>
+              ))}
+          </select>
+          <button onClick={handleAddAdmin} disabled={selectedUserId === null}>
+            Add as Admin
+          </button>
+        </div>
         <div className="admin-list">
           <table>
             <thead>
@@ -154,26 +174,6 @@ const AdminManageAdmin: React.FC<AdminManageAdminProps> = ({
                 ))}
             </tbody>
           </table>
-        </div>
-        <div className="admin-add">
-          {/* Select pour choisir un utilisateur */}
-          <select
-            value={selectedUserId !== null ? selectedUserId : ''}
-            onChange={(e) => setSelectedUserId(Number(e.target.value))}
-          >
-            <option value="">Select a user</option>
-            {[...users]
-              .filter(user => !admins.some(admin => admin.id_pers === user.id_pers))
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map(user => (
-                <option key={user.id_pers} value={user.id_pers}>
-                  {user.name} {user.firstname} (ID: {user.id_pers})
-                </option>
-              ))}
-          </select>
-          <button onClick={handleAddAdmin} disabled={selectedUserId === null}>
-            Add as Admin
-          </button>
         </div>
       </div>
     </div>

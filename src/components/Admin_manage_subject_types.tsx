@@ -24,6 +24,79 @@ const AdminManageSubjectTypes: React.FC<AdminManageSubjectTypesProps> = ({
     <div className="admin-section">
       <h2>Subject Types</h2>
       <div className="admin-content">
+        <div className="admin-add">
+          <h3>Add a new subject type</h3>
+          <input
+            type="text"
+            placeholder="Type"
+            value={newSubjectType}
+            onChange={(e) => setNewSubjectType(e.target.value)}
+          />
+          <input
+            type="color"
+            value={newSubjectColor}
+            onChange={(e) => setNewSubjectColor(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              if (newSubjectType && newSubjectColor) {
+                const token = localStorage.getItem('jwtToken');
+                if (token) {
+                  fetch(`${API_BASE_URL}/api/subject-types`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ type: newSubjectType, color: newSubjectColor }),
+                  })
+                    .then(response => {
+                      if (response.ok) {
+                        // Fetch the updated list of subject types
+                        fetch(`${API_BASE_URL}/api/subject-types`, {
+                          headers: {
+                            Authorization: `Bearer ${token}`,
+                          },
+                        })
+                          .then(response => response.json())
+                          .then(typeData => {
+                            const typesMap = typeData.reduce((acc: { [id: number]: string }, type: any) => {
+                              acc[type.id_subject_type] = type.type;
+                              return acc;
+                            }, {});
+                            setSubjectTypes(typesMap);
+
+                            // Also fetch the updated list of subject type colors
+                            const colorsMap = typeData.reduce((acc: { [id: number]: string }, type: any) => {
+                              acc[type.id_subject_type] = type.color_hex;
+                              return acc;
+                            }, {});
+                            setSubjectTypeColors(colorsMap);
+
+                            setNewSubjectType('');
+                            setNewSubjectColor('#000000'); // Reset to default color
+                          })
+                          .catch(error => {
+                            console.error('Error fetching subject types:', error);
+                          });
+                      } else {
+                        // No alert for error
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error adding subject type:', error);
+                      // No alert for error
+                    });
+                }
+              } else {
+                alert('Please fill in all required fields.');
+              }
+            }}
+            disabled={!newSubjectType || !newSubjectColor}
+          >
+            Add Type
+          </button>
+        </div>
         <div className="admin-list">
           <table>
             <thead>
@@ -164,79 +237,6 @@ const AdminManageSubjectTypes: React.FC<AdminManageSubjectTypesProps> = ({
               })}
             </tbody>
           </table>
-        </div>
-        <div className="admin-add">
-          <h3>Add a new subject type</h3>
-          <input
-            type="text"
-            placeholder="Type"
-            value={newSubjectType}
-            onChange={(e) => setNewSubjectType(e.target.value)}
-          />
-          <input
-            type="color"
-            value={newSubjectColor}
-            onChange={(e) => setNewSubjectColor(e.target.value)}
-          />
-          <button
-            onClick={() => {
-              if (newSubjectType && newSubjectColor) {
-                const token = localStorage.getItem('jwtToken');
-                if (token) {
-                  fetch(`${API_BASE_URL}/api/subject-types`, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ type: newSubjectType, color: newSubjectColor }),
-                  })
-                    .then(response => {
-                      if (response.ok) {
-                        // Fetch the updated list of subject types
-                        fetch(`${API_BASE_URL}/api/subject-types`, {
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                          },
-                        })
-                          .then(response => response.json())
-                          .then(typeData => {
-                            const typesMap = typeData.reduce((acc: { [id: number]: string }, type: any) => {
-                              acc[type.id_subject_type] = type.type;
-                              return acc;
-                            }, {});
-                            setSubjectTypes(typesMap);
-
-                            // Also fetch the updated list of subject type colors
-                            const colorsMap = typeData.reduce((acc: { [id: number]: string }, type: any) => {
-                              acc[type.id_subject_type] = type.color_hex;
-                              return acc;
-                            }, {});
-                            setSubjectTypeColors(colorsMap);
-
-                            setNewSubjectType('');
-                            setNewSubjectColor('#000000'); // Reset to default color
-                          })
-                          .catch(error => {
-                            console.error('Error fetching subject types:', error);
-                          });
-                      } else {
-                        // No alert for error
-                      }
-                    })
-                    .catch(error => {
-                      console.error('Error adding subject type:', error);
-                      // No alert for error
-                    });
-                }
-              } else {
-                alert('Please fill in all required fields.');
-              }
-            }}
-            disabled={!newSubjectType || !newSubjectColor}
-          >
-            Add Type
-          </button>
         </div>
       </div>
     </div>
