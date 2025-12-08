@@ -8,6 +8,7 @@ import AdminManageTeamMembers from './Admin_manage_team_members';
 import AdminManageSubjects from './Admin_manage_subjects';
 import AdminManageSubjectTypes from './Admin_manage_subject_types';
 import AdminManageColors from './Admin_manage_colors';
+import AdminWorkloadImport from './AdminWorkloadImport';
 
 interface AdminUser {
   id_pers: number;
@@ -306,6 +307,12 @@ const [newTeamId, setNewTeamId] = useState<number | null>(null);
         >
           Manage Colors
         </button>
+        <button
+          className={activeTab === 'workload-import' ? 'active' : ''}
+          onClick={() => setActiveTab('workload-import')}
+        >
+          Workload Plan Import
+        </button>
       </div>
 
       <div className="admin-content">
@@ -375,6 +382,7 @@ const [newTeamId, setNewTeamId] = useState<number | null>(null);
             setColorMapping={setColorMapping}
           />
         )}
+        {activeTab === 'workload-import' && <AdminWorkloadImport />}
       </div>
     </div>
   );

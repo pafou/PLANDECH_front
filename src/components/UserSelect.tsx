@@ -73,12 +73,21 @@ const UserSelect: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  // Sort users by name before rendering
+  const sortedUsers = [...users].sort((a, b) => {
+    const fullNameA = `${a.name} ${a.firstname}`.toLowerCase();
+    const fullNameB = `${b.name} ${b.firstname}`.toLowerCase();
+    if (fullNameA < fullNameB) return -1;
+    if (fullNameA > fullNameB) return 1;
+    return 0;
+  });
+
   return (
     <div>
       <label htmlFor="user-select">Select User: </label>
       <select id="user-select" value={selectedUser} onChange={handleUserChange}>
         <option value="">--Please choose a user--</option>
-        {users.map((user) => (
+        {sortedUsers.map((user) => (
           <option key={user.id_pers} value={`${user.name} ${user.firstname}`}>
             {user.name} {user.firstname}
           </option>
